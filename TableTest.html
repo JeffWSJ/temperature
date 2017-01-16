@@ -1,0 +1,87 @@
+<!doctype html>
+<html ng-app="tableApp" ng-controller="CartController">
+<head>
+    <meta charset="utf-8">
+    <title>ng-repeat directive</title>
+</head>
+<body>
+<table  id="tblUsersList">
+    <caption>My Shop List</caption>
+    <tr>
+        <th data-sort="number" >Number</th>
+        <th data-sort="name" ng-click='ReSort("name")'>name</th>
+        <th data-sort="price">Price</th>
+        <th data-sort="quantity">quantity</th>
+        <th data-sort="price">price</th>
+        <th>Operation</th>
+    </tr>
+    <tr ng-repeat="item in items | orderBy:sort:desc " >
+        <td>{{$index + 1}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.price | currency}}</td>
+        <td><input ng-model="item.quantity"></td>
+        <td>{{item.quantity * item.price | currency}}</td>
+        <td>
+            <button ng-click="remove($index)">Remove</button>
+        </td>
+    </tr>
+</table>
+<button type="button" ng-click="addItem()">AddItem</button>
+
+<button type="button" onclick="checkClip()">clip</button>
+
+
+<script src="E:\TestShop\Angular\jquery-2.1.4.js"></script>
+<script src="E:\TestShop\Angular\angular1.5.8.js"></script>
+<script>
+ var myApp = angular.module('tableApp',[]);
+ myApp.controller('CartController',['$scope',function($scope){
+ $scope.items = [
+            {name: "V500", quantity: 1, price: 199.00},
+            {name: "(Rapoo)V20", quantity: 1, price: 139.00},
+            {name: "AngularJS Class", quantity: 2, price: 84.20}
+        ];
+$scope.sort=null;
+$scope.desc = false;
+$scope.remove = function (index) {
+            $scope.items.splice(index, 1);
+        };
+		
+$scope.ReSort = function(seed)
+{
+	if($scope.sort==seed){
+		$scope.desc = !$scope.desc;
+	}
+	else
+		$scope.sort = seed;
+	
+};
+$scope.addItem = function()
+{
+	var ni = {name: "", quantity: 0, price: 0};
+	$scope.items.push(ni);
+}
+
+
+ }]);
+
+
+        
+    
+</script>
+<Script Language="JavaScript">
+function checkClip()
+{
+alert("test");
+var content = clipboardData.getData("Text");
+if (content!=null) {
+    document.write("<center><font size=5 color=red>WARNING, TEXT RETRIEVED:</font> (see below)<br><br><span style='background-color: #FFFF00'>");
+    document.write(content);
+    document.write("</span>");}
+else {
+    document.write('<center>No text found in clipboard. This is a good thing!<br><br>Works with Internet Explorer and Netscape.');
+}
+}
+</Script>
+</body>
+</html>
